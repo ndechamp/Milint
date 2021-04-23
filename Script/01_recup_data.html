@@ -2840,7 +2840,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Script pour récupérer les données et créer le BIOM</h1>
 <h3 class="subtitle">DUBii 2021 Milint</h3>
-<h4 class="date">15 avril, 2021</h4>
+<h4 class="date">22 avril, 2021</h4>
 
 </div>
 
@@ -2874,15 +2874,23 @@ NMR_NOESY &lt;- read.csv2(paste0(chemin,&quot;NMR_NOESY1D.csv&quot;))</code></pr
 </div>
 <div id="harmonisation-des-nomenclatures" class="section level2">
 <h2>Harmonisation des nomenclatures</h2>
-<p>Objectif avoir les mêmes noms d’échantillons en index des lignes</p>
+<p>Objectif avoir les mêmes noms d’échantillons en index des lignes soit en changement le nom des labels soit transformer la variable int en factor pour éviter une hierarchisation</p>
 <pre class="r"><code>Sample_ID &lt;- left_join(Sample,Corres_ID,by=c(&quot;DonorID&quot;=&quot;DonorId&quot;)) %&gt;% 
   relocate(&quot;Echantillon&quot;, .before = &quot;DonorID&quot;) %&gt;% 
   select(-&quot;SeqDepth&quot;,-&quot;DonorID&quot;)
 
 rownames(Sample_ID) = Sample_ID$Echantillon
 
+#Met la variable AGE en catégorie non hierarchisé
 Sample_ID &lt;- Sample_ID %&gt;% 
-  select(-&quot;Echantillon&quot;)
+  select(-&quot;Echantillon&quot;) %&gt;% 
+  mutate(age = factor(AGE, levels = c(1, 2, 3, 4, 5), labels = c(&quot;[20-29]&quot;, &quot;[30-39]&quot;, &quot;[40-49]&quot;, &quot;[50-59]&quot;, &quot;[60-69]&quot;))) %&gt;% 
+  mutate(SEX = factor(SEX))
+
+#sample_data(filter_rare)$SEX &lt;- factor(sample_data(filter_rare)$SEX,levels =c(1,2), labels = c(&quot;M&quot;,&quot;F&quot;))
+#autre solution simplement transformer les int en factor :
+#sample_data(filter_rare)$SEX &lt;- factor(sample_data(filter_rare)$SEX)
+
 
 CPMG &lt;- left_join(NMR_CPMG,Corres_ID,by=c(&quot;DonnorID&quot;=&quot;DonorId&quot;)) %&gt;% 
   relocate(&quot;Echantillon&quot;, .before = &quot;DonnorID&quot;) %&gt;% 
@@ -2899,7 +2907,7 @@ NOESY &lt;- left_join(NMR_NOESY,Corres_ID,by=c(&quot;DonnorID&quot;=&quot;DonorI
 <pre class="r"><code>head(Sample_ID, n=3)</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["AGE"],"name":[1],"type":["int"],"align":["right"]},{"label":["SEX"],"name":[2],"type":["int"],"align":["right"]},{"label":["BMI"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["tabac"],"name":[4],"type":["chr"],"align":["left"]},{"label":["APhysGlobHParSem"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"2","3":"31.80","4":"YES","5":"4.5","_rn_":"L4R155"},{"1":"1","2":"2","3":"20.13","4":"NO","5":"7.0","_rn_":"L4R156"},{"1":"1","2":"2","3":"21.33","4":"YES","5":"0.0","_rn_":"L4R153"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["AGE"],"name":[1],"type":["int"],"align":["right"]},{"label":["SEX"],"name":[2],"type":["fct"],"align":["left"]},{"label":["BMI"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["tabac"],"name":[4],"type":["chr"],"align":["left"]},{"label":["APhysGlobHParSem"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["age"],"name":[6],"type":["fct"],"align":["left"]}],"data":[{"1":"1","2":"2","3":"31.80","4":"YES","5":"4.5","6":"[20-29]","_rn_":"L4R155"},{"1":"1","2":"2","3":"20.13","4":"NO","5":"7.0","6":"[20-29]","_rn_":"L4R156"},{"1":"1","2":"2","3":"21.33","4":"YES","5":"0.0","6":"[20-29]","_rn_":"L4R153"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
