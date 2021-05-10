@@ -1,7 +1,0 @@
-"","skim_type","skim_variable","n_missing","complete_rate","character.min","character.max","character.empty","character.n_unique","character.whitespace","numeric.mean","numeric.sd","numeric.p0","numeric.p25","numeric.p50","numeric.p75","numeric.p100","numeric.hist"
-"1","character","Echantillon",0,1,5,8,0,846,0,NA,NA,NA,NA,NA,NA,NA,NA
-"2","character","tabac",0,1,2,3,0,3,0,NA,NA,NA,NA,NA,NA,NA,NA
-"3","numeric","AGE",0,1,NA,NA,NA,NA,NA,3.04964539007092,1.40914800463083,1,2,3,4,5,"▇▇▇▇▇"
-"4","numeric","SEX",0,1,NA,NA,NA,NA,NA,1.48817966903073,0.500155948094757,1,1,1,2,2,"▇▁▁▁▇"
-"5","numeric","BMI",0,1,NA,NA,NA,NA,NA,24.2730260047281,3.26712084917438,18.59,21.77,23.835,26.4625,32,"▅▇▆▃▂"
-"6","numeric","APhysGlobHParSem",0,1,NA,NA,NA,NA,NA,5.44260283687943,6.26984165051624,0,1,3,7.5,53,"▇▁▁▁▁"
